@@ -94,3 +94,6 @@
   path = vim/bundle/vim-ruby-doc
   url = git://github.com/lucapette/vim-ruby-doc.git
   ignore = untracked
+[submodule "vim/bundle/vim-open-url"]
+  path = vim/bundle/vim-open-url
+  url = https://github.com/henrik/vim-open-url.git
