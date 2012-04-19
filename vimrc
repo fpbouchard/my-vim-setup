@@ -177,7 +177,7 @@ nnoremap <silent> <esc> :noh<cr><esc>
 " CTags - refresh tags
 " jsctags was not that great --
 " map <Leader>rt :!jsctags .;ctags -a -R --languages=-JavaScript *<CR><CR>
-map <Leader>rt :!ctags -R *<CR><CR>
+map <Leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><CR>
 
 " Disable annoying middle-click paste feature
 map <MiddleMouse> <Nop>
