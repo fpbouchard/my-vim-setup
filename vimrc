@@ -167,7 +167,7 @@ autocmd FileType sass map <buffer> <Leader>c :!sass-convert -i -f sass2 %<CR>
 " Compile coffeescript on save (with -p so it does not save the .js, just check syntax for errors), show cwindow -- commented since now included in Syntastic
 ":autocmd BufWritePost *.coffee silent CoffeeMake! -p | cwindow
 " Leader-C compiles a snippet
-autocmd FileType coffee noremap <buffer> <Leader>c :CoffeeCompile<CR>
+autocmd FileType coffee noremap <buffer> <Leader>c :CoffeeCompile 25<CR>
 
 " Add macro to convert js files to CoffeeScript
 autocmd FileType javascript noremap <buffer> <Leader>c :!js2coffee %<CR>
