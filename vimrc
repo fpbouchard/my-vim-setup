@@ -14,9 +14,9 @@ set hidden                        " Handle multiple buffers better.
 
 set wildmenu                      " Enhanced command line completion.
 set wildmode=list:longest         " Complete files like a shell.
-set wildignore+=log/**
-set wildignore+=tmp/**
-set wildignore+=public/javascripts/compiled/**
+set wildignore+=*/log/**
+set wildignore+=*/tmp/**
+set wildignore+=*/public/javascripts/compiled/**
 
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
@@ -83,12 +83,15 @@ let g:bufExplorerShowRelativePath=1
 " Enable matchit
 runtime! macros/matchit.vim
 
-" Command-T
-map <D-t> :CommandT<CR>
-" Automatically refresh command-t when VIM gains focus
-autocmd FocusGained * :CommandTFlush
-" Command-T configuration
-let g:CommandTMaxHeight=20
+" CtrlP
+let g:ctrlp_map = '<D-t>'
+let g:ctrlp_max_height = 25
+let g:ctrlp_extensions = ['buffertag', 'line']
+let g:ctrlp_buftag_types = {
+  \ 'javascript' : '--language-force=js',
+  \ 'coffee'     : '--language-force=coffee',
+  \ }
+map <D-T> :CtrlPBufTag<CR>
 
 " map Leader-e to :e <path of current file>
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -192,9 +195,9 @@ imap <4-MiddleMouse> <Nop>
 
 " NERDTree
 " Command-T opens NERDTree
-map <D-T> :NERDTreeToggle<CR>
+map <F6> :NERDTreeToggle<CR>
 " Command-Shift-R find the current find in NERDTree
-map <D-R> :NERDTreeFind<CR>
+map <F5> :NERDTreeFind<CR>
 " When opening vim, open the nerdtree window
 " autocmd VimEnter * NERDTree
 " And restore focus to the right pane

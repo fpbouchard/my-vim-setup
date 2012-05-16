@@ -54,10 +54,6 @@
   path = vim/bundle/supertab
   url = https://github.com/ervandew/supertab.git
   ignore = untracked
-[submodule "vim/bundle/command-t"]
-  path = vim/bundle/command-t
-  url = git://git.wincent.com/command-t.git
-  ignore = untracked
 [submodule "vim/bundle/Color-Sampler-Pack"]
   path = vim/bundle/Color-Sampler-Pack
   url = https://github.com/vim-scripts/Color-Sampler-Pack.git
@@ -97,3 +93,6 @@
 [submodule "vim/bundle/vim-open-url"]
   path = vim/bundle/vim-open-url
   url = https://github.com/henrik/vim-open-url.git
+[submodule "vim/bundle/ctrlp"]
+	path = vim/bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
