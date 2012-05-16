@@ -92,7 +92,15 @@ let g:ctrlp_buftag_types = {
   \ 'javascript' : '--language-force=js',
   \ 'coffee'     : '--language-force=coffee',
   \ }
+
+" In insert mode, Commant-T leaves insert mode then opens ctrlp
+imap <D-t> <ESC>:CtrlPBufTag<CR>
+" Command-Shift-T opens the buffer tag finder (open symbol)
 map <D-T> :CtrlPBufTag<CR>
+imap <D-T> <ESC>:CtrlPBufTag<CR>
+" Command-B opens the buffer finder
+map <D-b> :CtrlPBuffer<CR>
+imap <D-b> <ESC>:CtrlPBuffer<CR>
 
 " map Leader-e to :e <path of current file>
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
