@@ -17,6 +17,7 @@ set wildmode=list:longest         " Complete files like a shell.
 set wildignore+=*/log/**
 set wildignore+=*/tmp/**
 set wildignore+=*/public/javascripts/compiled/**
+set wildignore+=*/.sass-cache/**
 
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
@@ -194,14 +195,8 @@ map <4-MiddleMouse> <Nop>
 imap <4-MiddleMouse> <Nop>
 
 " NERDTree
-" Command-T opens NERDTree
 map <F6> :NERDTreeToggle<CR>
-" Command-Shift-R find the current find in NERDTree
 map <F5> :NERDTreeFind<CR>
-" When opening vim, open the nerdtree window
-" autocmd VimEnter * NERDTree
-" And restore focus to the right pane
-" autocmd VimEnter * wincmd p
 
 " Syntastic
 let g:syntastic_enable_signs=1
