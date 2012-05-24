@@ -68,7 +68,8 @@ autocmd CursorMoved,InsertEnter *
 set splitbelow
 set splitright
 
-colorscheme desert
+"colorscheme desert
+colorscheme pyte
 
 " Show tabs, trailing whitespaces, extends and precedes
 set listchars=tab:>-,trail:·,extends:>,precedes:<,nbsp:+
