@@ -58,8 +58,11 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " Don't fold stuff by default
 " set foldlevelstart=99
 
-" Highlight line under the cursor -- commented since it really slows down the rendering
-"set cursorline
+" Highlight line and column when cursor is idle (after 4-5 seconds)
+" See http://www.reddit.com/r/vim/comments/t1lhc/cursorcolumn_cursorline_slowdown/
+autocmd CursorHold * setlocal cursorline cursorcolumn
+autocmd CursorMoved,InsertEnter *
+    \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
 
 " Split below and right
 set splitbelow
