@@ -1,7 +1,5 @@
-call pathogen#infect()
-call pathogen#helptags()
-
-set nocompatible                  " Must come first because it changes other options.
+" Vundle and bundles configuration
+source ~/.vim/bundles.vim
 
 set autoindent
 
@@ -49,6 +47,8 @@ set laststatus=2                  " Show the status line all the time
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%=%-16(\ %l,%c-%v\ %)%P
 
+syntax on
+
 " Enable folding (commented out since it really slows the rendering)
 " set foldmethod=syntax
 
@@ -75,19 +75,13 @@ colorscheme pyte
 set listchars=tab:>-,trail:·,extends:>,precedes:<,nbsp:+
 set list
 
-filetype plugin on
-filetype indent on
-
-syntax on
-
 " Buf explorer on Ctrl-B
 map <C-b> :BufExplorer<CR>
 " Show relative paths in BufExplorer
 let g:bufExplorerShowRelativePath=1
 
-" Enable matchit
+" Enable matchit (builtin)
 runtime! macros/matchit.vim
-
 
 " CtrlP
 " ------------------------------------------------------------------------------------
