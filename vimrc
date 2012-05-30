@@ -81,16 +81,13 @@ syntax on
 " See http://www.reddit.com/r/vim/comments/t1lhc/cursorcolumn_cursorline_slowdown/
 autocmd CursorHold * setlocal cursorline cursorcolumn
 autocmd CursorMoved,InsertEnter *
-    \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
+      \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
 " Also highlight line and column on Leader-i
 map <Leader>i :setlocal cursorline cursorcolumn<CR>
 
 " Split below and right
 set splitbelow
 set splitright
-
-"colorscheme desert
-colorscheme pyte
 
 " Show tabs, trailing whitespaces, extends and precedes
 set listchars=tab:>-,trail:·,extends:>,precedes:<,nbsp:+
@@ -137,9 +134,9 @@ let g:ctrlp_map = '<D-t>'
 let g:ctrlp_max_height = 25
 let g:ctrlp_extensions = ['buffertag', 'line']
 let g:ctrlp_buftag_types = {
-  \ 'javascript' : '--language-force=js',
-  \ 'coffee'     : '--language-force=coffee',
-  \ }
+      \ 'javascript' : '--language-force=js',
+      \ 'coffee'     : '--language-force=coffee',
+      \ }
 
 " In insert mode, Commant-T leaves insert mode then opens ctrlp
 imap <D-t> <ESC>:CtrlPBufTag<CR>
@@ -152,15 +149,15 @@ imap <D-b> <ESC>:CtrlPBuffer<CR>
 
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %s/\s\+$//e
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
@@ -168,33 +165,33 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "dont do it when writing a commit log entry
 autocmd BufReadPost * call SetCursorPosition()
 function! SetCursorPosition()
-    if &filetype !~ 'commit\c'
-        if line("'\"") > 0 && line("'\"") <= line("$")
-            exe "normal! g`\""
-            normal! zz
-        endif
-    end
+  if &filetype !~ 'commit\c'
+    if line("'\"") > 0 && line("'\"") <= line("$")
+      exe "normal! g`\""
+      normal! zz
+    endif
+  end
 endfunction
 
 " Big magic bunch of code to prevent adding EOL to non-binary files
 augroup EOL
-autocmd!
-autocmd BufWritePre * call EolSavePre()
-autocmd BufWritePost * call EolSavePost()
-autocmd BufNewFile * set noeol
+  autocmd!
+  autocmd BufWritePre * call EolSavePre()
+  autocmd BufWritePost * call EolSavePost()
+  autocmd BufNewFile * set noeol
 augroup END
 
 " If no eol at end of file, set binary so no eol will be added
 function! EolSavePre()
-let b:save_bin = &bin
-if ! &eol
-let &l:bin = 1
-endif
+  let b:save_bin = &bin
+  if ! &eol
+    let &l:bin = 1
+  endif
 endfunction
 
 " Restore binary flag
 function! EolSavePost()
-let &l:bin = b:save_bin
+  let &l:bin = b:save_bin
 endfunction
 " END of eol bunch of code
 
@@ -307,3 +304,8 @@ map <D-CR> :set invfu<CR>
 
 " Select last pasted text with gp
 nnoremap gp `[v`]
+
+" Local overrides
+if filereadable(glob("~/.vimrc.local"))
+    source ~/.vimrc.local
+endif
