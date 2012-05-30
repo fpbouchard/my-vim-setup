@@ -16,6 +16,8 @@ Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-ragtag'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-unimpaired'
 
 " Navigation
 Bundle 'scrooloose/nerdtree'
