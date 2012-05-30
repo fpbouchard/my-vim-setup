@@ -82,6 +82,8 @@ syntax on
 autocmd CursorHold * setlocal cursorline cursorcolumn
 autocmd CursorMoved,InsertEnter *
     \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
+" Also highlight line and column on Leader-i
+map <Leader>i :setlocal cursorline cursorcolumn<CR>
 
 " Split below and right
 set splitbelow
