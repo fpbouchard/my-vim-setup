@@ -150,9 +150,6 @@ imap <D-T> <ESC>:CtrlPBufTag<CR>
 map <D-b> :CtrlPBuffer<CR>
 imap <D-b> <ESC>:CtrlPBuffer<CR>
 
-" map Leader-e to :e <path of current file>
-map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
     " Preparation: save last search, and cursor position.
@@ -256,7 +253,7 @@ map <F5> :NERDTreeFind<CR>
 
 " Syntastic
 let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
+map <Leader>e :Errors<CR>
 
 " vim-ruby-doc
 let g:ruby_doc_command='open'
