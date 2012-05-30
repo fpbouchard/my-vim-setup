@@ -44,8 +44,27 @@ set expandtab                     " Use spaces instead of tabs
 set autoread                      " Do not ask when non-modified files have changed
 
 set laststatus=2                  " Show the status line all the time
+
 " Useful status information at bottom of screen
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%{fugitive#statusline()}%{SyntasticStatuslineFlag()}%=%-16(\ %l,%c-%v\ %)%P
+" Git status
+set statusline+=%{fugitive#statusline()}
+" Truncate here
+set statusline+=\ %<
+" File name
+set statusline+=%.99f
+" Syntastic warnings
+set statusline+=\ %#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+" Right side
+set statusline+=%=
+" Cursor position, % in page
+set statusline+=%-16(\ %l,%c%V\ %P\ %)
+" Flags
+set statusline+=\ %h%w%r%y
+" Modifiable in red, else empty
+set statusline+=%(\ %#warningmsg#%m%*%)
+
 
 syntax on
 
