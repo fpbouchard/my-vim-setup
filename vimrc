@@ -1,6 +1,7 @@
 " Vundle and bundles configuration
 source ~/.vim/bundles.vim
 
+" GENERAL CONFIGURATION
 set autoindent
 
 set showcmd                       " Display incomplete commands.
@@ -46,6 +47,8 @@ set autoread                      " Do not ask when non-modified files have chan
 set laststatus=2                  " Show the status line all the time
 
 " Useful status information at bottom of screen
+" Modifiable in red, else empty
+set statusline+=%(%#warningmsg#%m%*%)
 " Git status
 set statusline+=%{fugitive#statusline()}
 " Truncate here
@@ -62,9 +65,6 @@ set statusline+=%=
 set statusline+=%-16(\ %l,%c%V\ %P\ %)
 " Flags
 set statusline+=\ %h%w%r%y
-" Modifiable in red, else empty
-set statusline+=%(\ %#warningmsg#%m%*%)
-
 
 syntax on
 
@@ -77,14 +77,6 @@ syntax on
 " Don't fold stuff by default
 " set foldlevelstart=99
 
-" Highlight line and column when cursor is idle (after 4-5 seconds)
-" See http://www.reddit.com/r/vim/comments/t1lhc/cursorcolumn_cursorline_slowdown/
-autocmd CursorHold * setlocal cursorline cursorcolumn
-autocmd CursorMoved,InsertEnter *
-      \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
-" Also highlight line and column on Leader-i
-map <Leader>i :setlocal cursorline cursorcolumn<CR>
-
 " Split below and right
 set splitbelow
 set splitright
@@ -93,13 +85,23 @@ set splitright
 set listchars=tab:>-,trail:·,extends:>,precedes:<,nbsp:+
 set list
 
+
+" PLUGINS ===================================================================
+
+
 " Buf explorer on Ctrl-B
 map <C-b> :BufExplorer<CR>
 " Show relative paths in BufExplorer
 let g:bufExplorerShowRelativePath=1
 
+
+
+
 " Enable matchit (builtin)
 runtime! macros/matchit.vim
+
+
+
 
 " CtrlP
 " ------------------------------------------------------------------------------------
@@ -147,6 +149,24 @@ imap <D-T> <ESC>:CtrlPBufTag<CR>
 map <D-b> :CtrlPBuffer<CR>
 imap <D-b> <ESC>:CtrlPBuffer<CR>
 
+
+
+" NERDTree
+map <F6> :NERDTreeToggle<CR>
+map <F5> :NERDTreeFind<CR>
+
+" Syntastic
+let g:syntastic_enable_signs=1
+map <Leader>e :Errors<CR>
+
+" vim-ruby-doc
+let g:ruby_doc_command='open'
+
+
+
+
+
+
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
   " Preparation: save last search, and cursor position.
@@ -161,6 +181,8 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
+
+
 "jump to last cursor position when opening a file
 "dont do it when writing a commit log entry
 autocmd BufReadPost * call SetCursorPosition()
@@ -172,6 +194,8 @@ function! SetCursorPosition()
     endif
   end
 endfunction
+
+
 
 " Big magic bunch of code to prevent adding EOL to non-binary files
 augroup EOL
@@ -195,39 +219,62 @@ function! EolSavePost()
 endfunction
 " END of eol bunch of code
 
+
+
+
 " Add .mobile.erb and .pdf.erb as html syntax to vim-rails
 " Only setting the subtype was not working, I had to reset the filetype once
 " the subtype is set. See: https://github.com/vim-ruby/vim-ruby/issues/34
-autocmd BufNewFile,BufRead *.mobile.erb let b:eruby_subtype='html'
-autocmd BufNewFile,BufRead *.mobile.erb set filetype=eruby
-autocmd BufNewFile,BufRead *.pdf.erb let b:eruby_subtype='html'
-autocmd BufNewFile,BufRead *.pdf.erb set filetype=eruby
+augroup rails_subtypes
+  autocmd!
+  autocmd BufNewFile,BufRead *.mobile.erb let b:eruby_subtype='html'
+  autocmd BufNewFile,BufRead *.mobile.erb set filetype=eruby
+  autocmd BufNewFile,BufRead *.pdf.erb let b:eruby_subtype='html'
+  autocmd BufNewFile,BufRead *.pdf.erb set filetype=eruby
+augroup END
 
-" We are stuck with a non-Rails standard shiftwidth of 4 in our html.erb files in petalmd :(
 " See: https://github.com/tpope/vim-rails/issues/unreads#issue/33
 " See: :help rails-'shiftwidth' & :help rails-autocommands
-autocmd User Rails.view.*erb if getcwd() =~ 'code/petalmd$' | set sw=4 sts=4 | endif
-" Indent yaml
-autocmd User Rails.config* set smartindent
-" Expand tabs in javascript, force tab at 2 (also covers CoffeeScript: Rails.javascript.coffee)
-autocmd User Rails.javascript* set expandtab sw=2 sts=2
-" Cucumber are indented by 2
-autocmd User Rails.cucumber.feature* set sw=2 sts=2
+augroup rails_filesettings
+  autocmd!
 
-" Add macro to convert sass2 files to sass3 syntax
-autocmd FileType sass map <buffer> <Leader>c :!sass-convert -i -f sass2 %<CR>
+  "autocmd User Rails.view.*erb if getcwd() =~ 'code/petalmd$' | set sw=4 sts=4 | endif
+  " Indent yaml
+  autocmd User Rails.config* set smartindent
+  " Expand tabs in javascript, force tab at 2 (also covers CoffeeScript: Rails.javascript.coffee)
+  autocmd User Rails.javascript* set expandtab sw=2 sts=2
+  " Cucumber are indented by 2
+  autocmd User Rails.cucumber.feature* set sw=2 sts=2
+augroup END
 
-" CoffeeScript stuff
-" Compile coffeescript on save (with -p so it does not save the .js, just check syntax for errors), show cwindow -- commented since now included in Syntastic
-":autocmd BufWritePost *.coffee silent CoffeeMake! -p | cwindow
-" Leader-C compiles a snippet
-autocmd FileType coffee noremap <buffer> <Leader>c :CoffeeCompile 25<CR>
 
-" Add macro to convert js files to CoffeeScript
-autocmd FileType javascript noremap <buffer> <Leader>c :!js2coffee %<CR>
+
+
+" <Leader>-c is mapped to 'compile' in different file types
+augroup compilers
+  autocmd!
+
+  " Add macro to convert sass2 files to sass3 syntax
+  autocmd FileType sass map <buffer> <Leader>c :!sass-convert -i -f sass2 %<CR>
+
+  " CoffeeScript stuff
+  " Compile coffeescript on save (with -p so it does not save the .js, just check syntax for errors), show cwindow -- commented since now included in Syntastic
+  ":autocmd BufWritePost *.coffee silent CoffeeMake! -p | cwindow
+  " Leader-C compiles a snippet
+  autocmd FileType coffee noremap <buffer> <Leader>c :CoffeeCompile 25<CR>
+
+  " Add macro to convert js files to CoffeeScript
+  autocmd FileType javascript noremap <buffer> <Leader>c :!js2coffee %<CR>
+augroup END
+
+
+
 
 " Clear the current search highlight by pressing Esc
 nnoremap <silent> <esc> :noh<cr><esc>
+
+
+
 
 " CTags - refresh tags
 " jsctags was not that great --
@@ -244,22 +291,22 @@ imap <3-MiddleMouse> <Nop>
 map <4-MiddleMouse> <Nop>
 imap <4-MiddleMouse> <Nop>
 
-" NERDTree
-map <F6> :NERDTreeToggle<CR>
-map <F5> :NERDTreeFind<CR>
-
-" Syntastic
-let g:syntastic_enable_signs=1
-map <Leader>e :Errors<CR>
-
-" vim-ruby-doc
-let g:ruby_doc_command='open'
-
 " Always open the quick fix window after a quick fix command
 autocmd QuickFixCmdPost *grep* cwindow
 
-" Auto align | in cucumber features
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align_cukes()<CR>a
+" Alignment functions and routes
+augroup align
+  autocmd!
+
+  " Auto align | in cucumber features
+  inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align_cukes()<CR>a
+
+  " Route aligning (note, this is dependent on the 'routes' tabular pipeline
+  " found in ~/.vim/after/plugin
+
+  inoremap <silent> : :<Esc>:call <SID>align_routes()<CR>a
+  noremap <silent> <Leader>tr :Tabularize routes<CR>
+augroup END
 
 function! s:align_cukes()
   let p = '^\s*|\s.*\s|\s*$'
@@ -271,12 +318,6 @@ function! s:align_cukes()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
-
-" Route aligning (note, this is dependent on the 'routes' tabular pipeline
-" found in ~/.vim/after/plugin
-
-inoremap <silent> : :<Esc>:call <SID>align_routes()<CR>a
-noremap <silent> <Leader>tr :Tabularize routes<CR>
 
 function! s:align_routes()
   let p = '\v\s+map.*\s+.*$'
@@ -304,6 +345,19 @@ map <D-CR> :set invfu<CR>
 
 " Select last pasted text with gp
 nnoremap gp `[v`]
+
+" Highlight line and column when cursor is idle (after 4-5 seconds)
+" See http://www.reddit.com/r/vim/comments/t1lhc/cursorcolumn_cursorline_slowdown/
+augroup cursor
+  autocmd!
+  autocmd CursorHold * setlocal cursorline cursorcolumn
+  autocmd CursorMoved,InsertEnter *
+        \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
+augroup END
+
+" Also highlight line and column on Leader-i
+map <Leader>i :setlocal cursorline cursorcolumn<CR>
+
 
 " Local overrides
 if filereadable(glob("~/.vimrc.local"))

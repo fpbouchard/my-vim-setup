@@ -41,4 +41,8 @@ Bundle 'Color-Sampler-Pack'
 Bundle 'clones/vim-align'
 Bundle 'godlygeek/tabular'
 
+" objects
+Bundle 'vim-indent-object'
+Bundle 'coderifous/textobj-word-column.vim'
+
 filetype plugin indent on     " required!
