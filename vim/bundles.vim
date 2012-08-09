@@ -47,4 +47,10 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'vim-indent-object'
 Bundle 'coderifous/textobj-word-column.vim'
 
+
+" Local bundles
+if filereadable(glob("~/.vimbundles.local"))
+    source ~/.vimbundles.local
+endif
+
 filetype plugin indent on     " required!

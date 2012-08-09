@@ -1,7 +1,5 @@
 " Font family and font size.
-set guifont=Consolas:h14
 set antialias                     " MacVim: smooth fonts.
-set encoding=utf-8                " Use UTF-8 everywhere.
 set guioptions-=T                 " Hide toolbar.
 
 if has("gui_macvim")

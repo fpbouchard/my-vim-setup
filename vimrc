@@ -46,6 +46,7 @@ set autoread                      " Do not ask when non-modified files have chan
 
 set laststatus=2                  " Show the status line all the time
 
+set encoding=utf-8                " Use UTF-8 everywhere.
 
 syntax on
 
