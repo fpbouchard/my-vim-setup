@@ -41,6 +41,7 @@ Bundle 'JSON.vim'
 Bundle 'Color-Sampler-Pack'
 Bundle 'clones/vim-align'
 Bundle 'godlygeek/tabular'
+Bundle 'Lokaltog/vim-powerline'
 
 " objects
 Bundle 'vim-indent-object'

@@ -46,25 +46,6 @@ set autoread                      " Do not ask when non-modified files have chan
 
 set laststatus=2                  " Show the status line all the time
 
-" Useful status information at bottom of screen
-" Modifiable in red, else empty
-set statusline+=%(%#warningmsg#%m%*%)
-" Git status
-set statusline+=%{fugitive#statusline()}
-" Truncate here
-set statusline+=\ %<
-" File name
-set statusline+=%.99f
-" Syntastic warnings
-set statusline+=\ %#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-" Right side
-set statusline+=%=
-" Cursor position, % in page
-set statusline+=%-16(\ %l,%c%V\ %P\ %)
-" Flags
-set statusline+=\ %h%w%r%y
 
 syntax on
 
@@ -162,8 +143,8 @@ map <Leader>e :Errors<CR>
 " vim-ruby-doc
 let g:ruby_doc_command='open'
 
-
-
+" vim-powerline
+let g:Powerline_symbols = 'fancy'
 
 
 
