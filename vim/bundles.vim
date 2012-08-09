@@ -35,6 +35,7 @@ Bundle 'pangloss/vim-javascript'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/syntastic'
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'JSON.vim'
 
 " misc
 Bundle 'Color-Sampler-Pack'
