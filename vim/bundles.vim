@@ -7,6 +7,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " tpope!
+Bundle 'tpope/vim-sensible'
 Bundle 'tpope/vim-cucumber'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
@@ -18,6 +19,10 @@ Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-rvm'
+Bundle 'tpope/vim-dispatch'
+Bundle 'tpope/vim-bundler'
+Bundle 'tpope/vim-sleuth'
 
 " Navigation
 Bundle 'scrooloose/nerdtree'
@@ -29,24 +34,26 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'mileszs/ack.vim'
 
 " Languages/editing
+Bundle 'vim-ruby/vim-ruby'
 Bundle 'bingaman/vim-sparkup'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'pangloss/vim-javascript'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/syntastic'
-Bundle 'vim-ruby/vim-ruby'
 Bundle 'JSON.vim'
+" Was breaking html.erb indentation
+"Bundle 'pangloss/vim-javascript'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'terryma/vim-multiple-cursors'
+
+" objects
+Bundle 'vim-indent-object'
 
 " misc
 Bundle 'Color-Sampler-Pack'
 Bundle 'clones/vim-align'
 Bundle 'godlygeek/tabular'
 Bundle 'Lokaltog/vim-powerline'
-
-" objects
-Bundle 'vim-indent-object'
-Bundle 'coderifous/textobj-word-column.vim'
-
+Bundle 'AutoTag'
 
 " Local bundles
 if filereadable(glob("~/.vimbundles.local"))

@@ -2,12 +2,9 @@
 source ~/.vim/bundles.vim
 
 " GENERAL CONFIGURATION
-set autoindent
 
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
-
-set backspace=indent,eol,start    " Intuitive backspacing.
 
 set hidden                        " Handle multiple buffers better.
 
@@ -38,33 +35,24 @@ set nobackup                      " Don't make a backup before overwriting a fil
 set nowritebackup                 " And again.
 set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
 
-set softtabstop=2
-set shiftwidth=2
-set expandtab                     " Use spaces instead of tabs
-
+set autowriteall                  " Save as often as possible
 set autoread                      " Do not ask when non-modified files have changed
 
 set laststatus=2                  " Show the status line all the time
 
-set encoding=utf-8                " Use UTF-8 everywhere.
-
-syntax on
-
-" Enable folding (commented out since it really slows the rendering)
-" set foldmethod=syntax
-
+" Set fold method -- currently 'manual' for performance reasons (dramatically
+" accelerates opening files like routes.rb)
+set foldmethod=manual
 " Enable a fold column
-" set foldcolumn=1
-
-" Don't fold stuff by default
-" set foldlevelstart=99
+set foldcolumn=4
+" Disable folding by default
+set nofoldenable
 
 " Split below and right
 set splitbelow
 set splitright
 
 " Show tabs, trailing whitespaces, extends and precedes
-set listchars=tab:>-,trail:·,extends:>,precedes:<,nbsp:+
 set list
 
 
@@ -75,13 +63,6 @@ set list
 map <C-b> :BufExplorer<CR>
 " Show relative paths in BufExplorer
 let g:bufExplorerShowRelativePath=1
-
-
-
-
-" Enable matchit (builtin)
-runtime! macros/matchit.vim
-
 
 
 
@@ -137,16 +118,23 @@ imap <D-b> <ESC>:CtrlPBuffer<CR>
 map <F6> :NERDTreeToggle<CR>
 map <F5> :NERDTreeFind<CR>
 
+
 " Syntastic
 let g:syntastic_enable_signs=1
 map <Leader>e :Errors<CR>
 
+
 " vim-ruby-doc
 let g:ruby_doc_command='open'
+
 
 " vim-powerline
 let g:Powerline_symbols = 'fancy'
 
+
+" ack.vim customization
+" Use the_silver_searcher: brew install the_silver_searcher
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 
 " Strip trailing whitespace
@@ -204,10 +192,10 @@ endfunction
 
 
 
-" Add .mobile.erb and .pdf.erb as html syntax to vim-rails
+" Add .mobile.erb and .pdf.erb as html syntax to vim-ruby
 " Only setting the subtype was not working, I had to reset the filetype once
 " the subtype is set. See: https://github.com/vim-ruby/vim-ruby/issues/34
-augroup rails_subtypes
+augroup ruby_subtypes
   autocmd!
   autocmd BufNewFile,BufRead *.mobile.erb let b:eruby_subtype='html'
   autocmd BufNewFile,BufRead *.mobile.erb set filetype=eruby
@@ -215,20 +203,9 @@ augroup rails_subtypes
   autocmd BufNewFile,BufRead *.pdf.erb set filetype=eruby
 augroup END
 
-" See: https://github.com/tpope/vim-rails/issues/unreads#issue/33
-" See: :help rails-'shiftwidth' & :help rails-autocommands
-augroup rails_filesettings
-  autocmd!
-
-  "autocmd User Rails.view.*erb if getcwd() =~ 'code/petalmd$' | set sw=4 sts=4 | endif
-  " Indent yaml
-  autocmd User Rails.config* set smartindent
-  " Expand tabs in javascript, force tab at 2 (also covers CoffeeScript: Rails.javascript.coffee)
-  autocmd User Rails.javascript* set expandtab sw=2 sts=2
-  " Cucumber are indented by 2
-  autocmd User Rails.cucumber.feature* set sw=2 sts=2
+augroup folding
+  autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
 augroup END
-
 
 
 
@@ -237,7 +214,7 @@ augroup compilers
   autocmd!
 
   " Add macro to convert sass2 files to sass3 syntax
-  autocmd FileType sass map <buffer> <Leader>c :!sass-convert -i -f sass2 %<CR>
+  autocmd FileType sass map <buffer> <Leader>c :!sass-convert -i -F sass -T sass %<CR><CR>
 
   " CoffeeScript stuff
   " Compile coffeescript on save (with -p so it does not save the .js, just check syntax for errors), show cwindow -- commented since now included in Syntastic
@@ -261,7 +238,9 @@ nnoremap <silent> <esc> :noh<cr><esc>
 " CTags - refresh tags
 " jsctags was not that great --
 " map <Leader>rt :!jsctags .;ctags -a -R --languages=-JavaScript *<CR><CR>
-map <Leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=compiled --exclude=tmp -R * `rvm gemdir`/gems/*<CR><CR>
+" Also index gems -- this could be done only once and referred in vim's setup.
+" It it still good enough so I didn't try to find how to tweak it.
+map <Leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=compiled --exclude=tmp -R *<CR><CR>
 
 " Disable annoying middle-click paste feature
 map <MiddleMouse> <Nop>
