@@ -20,7 +20,6 @@ Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-rvm'
-Bundle 'tpope/vim-dispatch'
 Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-sleuth'
 
@@ -43,7 +42,6 @@ Bundle 'JSON.vim'
 " Was breaking html.erb indentation
 "Bundle 'pangloss/vim-javascript'
 Bundle 'airblade/vim-gitgutter'
-Bundle 'terryma/vim-multiple-cursors'
 
 " objects
 Bundle 'vim-indent-object'
@@ -54,6 +52,7 @@ Bundle 'clones/vim-align'
 Bundle 'godlygeek/tabular'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'AutoTag'
+Bundle 'sjl/gundo.vim'
 
 " Local bundles
 if filereadable(glob("~/.vimbundles.local"))

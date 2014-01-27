@@ -40,6 +40,10 @@ set autoread                      " Do not ask when non-modified files have chan
 
 set laststatus=2                  " Show the status line all the time
 
+" Still set defaults for tabs
+set expandtab
+set shiftwidth=2
+
 " Set fold method -- currently 'manual' for performance reasons (dramatically
 " accelerates opening files like routes.rb)
 set foldmethod=manual
@@ -135,6 +139,10 @@ let g:Powerline_symbols = 'fancy'
 " ack.vim customization
 " Use the_silver_searcher: brew install the_silver_searcher
 let g:ackprg = 'ag --nogroup --nocolor --column'
+
+
+" Sparkup
+let g:sparkupArgs = '--no-last-newline --expand-divs'
 
 
 " Strip trailing whitespace
@@ -300,10 +308,6 @@ noremap <Leader>l :lcl<CR>
 " Enable folding by <Leader>f
 noremap <Leader>f :setlocal foldmethod=syntax foldcolumn=4<CR>
 
-" Toggle fullscreen with cmd-enter
-set fuopt+=maxhorz
-map <D-CR> :set invfu<CR>
-
 " Select last pasted text with gp
 nnoremap gp `[v`]
 
@@ -323,4 +327,11 @@ map <Leader>i :setlocal cursorline cursorcolumn<CR>
 " Local overrides
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
+endif
+
+
+" skip paren matching -- it's too slow
+if version >= 700
+  ":NoMatchParen and :DoMatchParen toggle this
+  let loaded_matchparen = 1
 endif
