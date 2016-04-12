@@ -1,5 +1,7 @@
-" Vundle and bundles configuration
-source ~/.vim/bundles.vim
+set nocompatible               " be iMproved
+
+" vim-plug configuration
+source ~/.vim/vim-plug.vim
 
 " GENERAL CONFIGURATION
 
@@ -40,6 +42,8 @@ set autoread                      " Do not ask when non-modified files have chan
 
 set laststatus=2                  " Show the status line all the time
 
+set clipboard=unnamed             " Map the mac clipboard to the anonymous register
+
 " Still set defaults for tabs
 set expandtab
 set shiftwidth=2
@@ -76,6 +80,7 @@ let g:bufExplorerShowRelativePath=1
 let g:path_to_matcher = "/usr/local/bin/matcher"
 let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files . -co --exclude-standard']
 let g:ctrlp_match_func = { 'match': 'GoodMatch' }
+
 function! GoodMatch(items, str, limit, mmode, ispath, crfile, regex)
 
   " Create a cache file if not yet exists
@@ -132,8 +137,10 @@ map <Leader>e :Errors<CR>
 let g:ruby_doc_command='open'
 
 
-" vim-powerline
-let g:Powerline_symbols = 'fancy'
+" vim-airline
+" tabline was slowing down vim to a crawl when multiple buffers were open
+"let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 
 " ack.vim customization
@@ -143,6 +150,13 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " Sparkup
 let g:sparkupArgs = '--no-last-newline --expand-divs'
+
+" vroom
+let g:vroom_use_dispatch = 1
+
+" vim-jsx
+let g:jsx_ext_required = 0
+
 
 
 " Strip trailing whitespace
@@ -198,6 +212,22 @@ endfunction
 " END of eol bunch of code
 
 
+" Autosize quickfix window to content: https://gist.github.com/juanpabloaj/5845848
+au FileType qf call AdjustWindowHeight(3, 15)
+function! AdjustWindowHeight(minheight, maxheight)
+    let l = 1
+    let n_lines = 0
+    let w_width = winwidth(0)
+    while l <= line('$')
+        " number to float for division
+        let l_len = strlen(getline(l)) + 0.0
+        let line_width = l_len/w_width
+        let n_lines += float2nr(ceil(line_width))
+        let l += 1
+    endw
+    exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
 
 
 " Add .mobile.erb and .pdf.erb as html syntax to vim-ruby
@@ -225,10 +255,8 @@ augroup compilers
   autocmd FileType sass map <buffer> <Leader>c :!sass-convert -i -F sass -T sass %<CR><CR>
 
   " CoffeeScript stuff
-  " Compile coffeescript on save (with -p so it does not save the .js, just check syntax for errors), show cwindow -- commented since now included in Syntastic
-  ":autocmd BufWritePost *.coffee silent CoffeeMake! -p | cwindow
   " Leader-C compiles a snippet
-  autocmd FileType coffee noremap <buffer> <Leader>c :CoffeeCompile 25<CR>
+  autocmd FileType coffee noremap <buffer> <Leader>c :CoffeeCompile<CR>
 
   " Add macro to convert js files to CoffeeScript
   autocmd FileType javascript noremap <buffer> <Leader>c :!js2coffee %<CR>
@@ -245,10 +273,10 @@ nnoremap <silent> <esc> :noh<cr><esc>
 
 " CTags - refresh tags
 " jsctags was not that great --
-" map <Leader>rt :!jsctags .;ctags -a -R --languages=-JavaScript *<CR><CR>
+" map <Leader>tt :!jsctags .;ctags -a -R --languages=-JavaScript *<CR><CR>
 " Also index gems -- this could be done only once and referred in vim's setup.
 " It it still good enough so I didn't try to find how to tweak it.
-map <Leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=compiled --exclude=tmp -R *<CR><CR>
+map <Leader>tt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=compiled --exclude=tmp -R *<CR><CR>
 
 " Disable annoying middle-click paste feature
 map <MiddleMouse> <Nop>
