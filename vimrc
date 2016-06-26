@@ -75,35 +75,6 @@ let g:bufExplorerShowRelativePath=1
 
 
 " CtrlP
-" ------------------------------------------------------------------------------------
-" 'matcher' fuzzy finder for CtrlP, see https://github.com/burke/matcher
-let g:path_to_matcher = "/usr/local/bin/matcher"
-let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files . -co --exclude-standard']
-let g:ctrlp_match_func = { 'match': 'GoodMatch' }
-
-function! GoodMatch(items, str, limit, mmode, ispath, crfile, regex)
-
-  " Create a cache file if not yet exists
-  let cachefile = ctrlp#utils#cachedir().'/matcher.cache'
-  if !( filereadable(cachefile) && a:items == readfile(cachefile) )
-    call writefile(a:items, cachefile)
-  endif
-  if !filereadable(cachefile)
-    return []
-  endif
-
-  " a:mmode is currently ignored. In the future, we should probably do
-  " something about that. the matcher behaves like "full-line".
-  let cmd = g:path_to_matcher.' --limit '.a:limit.' --manifest '.cachefile.' '
-  if !( exists('g:ctrlp_dotfiles') && g:ctrlp_dotfiles )
-    let cmd = cmd.'--no-dotfiles '
-  endif
-  let cmd = cmd.a:str
-
-  return split(system(cmd), "\n")
-
-endfunction
-
 let g:ctrlp_map = '<D-t>'
 let g:ctrlp_max_height = 25
 let g:ctrlp_extensions = ['buffertag', 'line']
@@ -111,6 +82,7 @@ let g:ctrlp_buftag_types = {
       \ 'javascript' : '--language-force=js',
       \ 'coffee'     : '--language-force=coffee',
       \ }
+let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 
 " In insert mode, Commant-T leaves insert mode then opens ctrlp
 imap <D-t> <ESC>:CtrlPBufTag<CR>

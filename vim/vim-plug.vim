@@ -18,14 +18,17 @@ Plug 'tpope/vim-rvm'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-vinegar'
 
 " Navigation
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " Autocomplete/fuzzy search/ack
 Plug 'bufexplorer.zip'
-Plug 'ervandew/supertab'
-Plug 'kien/ctrlp.vim'
+"Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'JazzCore/ctrlp-cmatcher'
 Plug 'mileszs/ack.vim'
 
 " Languages/editing
@@ -41,7 +44,7 @@ Plug 'robbles/logstash.vim'
 Plug 'tfnico/vim-gradle'
 Plug 'airblade/vim-gitgutter'
 Plug 'mxw/vim-jsx'
-Plug 'Quramy/tsuquyomi'
+"Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 
 " objects
