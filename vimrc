@@ -219,27 +219,8 @@ augroup END
 
 
 
-" <Leader>-c is mapped to 'compile' in different file types
-augroup compilers
-  autocmd!
-
-  " Add macro to convert sass2 files to sass3 syntax
-  autocmd FileType sass map <buffer> <Leader>c :!sass-convert -i -F sass -T sass %<CR><CR>
-
-  " CoffeeScript stuff
-  " Leader-C compiles a snippet
-  autocmd FileType coffee noremap <buffer> <Leader>c :CoffeeCompile<CR>
-
-  " Add macro to convert js files to CoffeeScript
-  autocmd FileType javascript noremap <buffer> <Leader>c :!js2coffee %<CR>
-augroup END
-
-
-
-
 " Clear the current search highlight by pressing Esc
-nnoremap <silent> <esc> :noh<cr><esc>
-
+nnoremap <esc><esc> :noh<CR>
 
 
 
@@ -263,45 +244,6 @@ imap <4-MiddleMouse> <Nop>
 " Always open the quick fix window after a quick fix command
 autocmd QuickFixCmdPost *grep* cwindow
 
-" Alignment functions and routes
-augroup align
-  autocmd!
-
-  " Auto align | in cucumber features
-  inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align_cukes()<CR>a
-
-  " Route aligning (note, this is dependent on the 'routes' tabular pipeline
-  " found in ~/.vim/after/plugin
-
-  inoremap <silent> : :<Esc>:call <SID>align_routes()<CR>a
-  noremap <silent> <Leader>tr :Tabularize routes<CR>
-augroup END
-
-function! s:align_cukes()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
-
-function! s:align_routes()
-  let p = '\v\s+map.*\s+.*$'
-  if exists(':Tabularize') && getline('.') =~# '\v^\s*map' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^:]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*:\s*\zs.*'))
-
-    Tabularize routes
-
-    normal! 0
-    call search(repeat('[^:]*:',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
-
 " Close the quickfix window with <Leader>l
 noremap <Leader>l :lcl<CR>
 
@@ -319,10 +261,6 @@ augroup cursor
   autocmd CursorMoved,InsertEnter *
         \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
 augroup END
-
-" Also highlight line and column on Leader-i
-map <Leader>i :setlocal cursorline cursorcolumn<CR>
-
 
 " Local overrides
 if filereadable(glob("~/.vimrc.local"))
