@@ -41,9 +41,7 @@ Plug 'JSON.vim'
 Plug 'robbles/logstash.vim'
 " Was breaking html.erb indentation
 "Plug 'pangloss/vim-javascript'
-Plug 'tfnico/vim-gradle'
 Plug 'airblade/vim-gitgutter'
-Plug 'mxw/vim-jsx'
 "Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 

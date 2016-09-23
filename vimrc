@@ -126,11 +126,6 @@ let g:sparkupArgs = '--no-last-newline --expand-divs'
 " vroom
 let g:vroom_use_dispatch = 1
 
-" vim-jsx
-let g:jsx_ext_required = 0
-
-
-
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
   " Preparation: save last search, and cursor position.
