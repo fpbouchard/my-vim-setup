@@ -17,7 +17,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-rvm'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-dispatch'
+"Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-vinegar'
 
 " Navigation
@@ -35,8 +35,7 @@ Plug 'mileszs/ack.vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'bingaman/vim-sparkup'
 Plug 'kchmck/vim-coffee-script'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/nerdcommenter'
 Plug 'JSON.vim'
 Plug 'robbles/logstash.vim'
 " Was breaking html.erb indentation
@@ -45,11 +44,17 @@ Plug 'airblade/vim-gitgutter'
 "Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 
+" Make/link
+" Plug 'scrooloose/syntastic'
+Plug 'neomake/neomake'
+
 " objects
 Plug 'vim-indent-object'
 
 " tests
-Plug 'skalnik/vim-vroom'
+"Plug 'skalnik/vim-vroom'
+"Plug 'thoughtbot/vim-rspec'
+Plug 'janko-m/vim-test'
 
 " misc
 "Plug 'clones/vim-align'
@@ -58,8 +63,11 @@ Plug 'bling/vim-airline'
 Plug 'AutoTag'
 
 " Local bundles
-if filereadable(glob("~/.vim-plug.local"))
+if !has("nvim") && filereadable(glob("~/.vim-plug.local"))
     source ~/.vim-plug.local
+endif
+if has("nvim") && filereadable(glob("~/.vim-plug.nvim.local"))
+    source ~/.vim-plug.nvim.local
 endif
 
 call plug#end()

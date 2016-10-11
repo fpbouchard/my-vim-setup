@@ -75,7 +75,7 @@ let g:bufExplorerShowRelativePath=1
 
 
 " CtrlP
-let g:ctrlp_map = '<D-t>'
+let g:ctrlp_map = '<C-p>'
 let g:ctrlp_max_height = 25
 let g:ctrlp_extensions = ['buffertag', 'line']
 let g:ctrlp_buftag_types = {
@@ -85,13 +85,13 @@ let g:ctrlp_buftag_types = {
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 
 " In insert mode, Commant-T leaves insert mode then opens ctrlp
-imap <D-t> <ESC>:CtrlPBufTag<CR>
+"imap <C-t> <ESC>:CtrlPBufTag<CR>
 " Command-Shift-T opens the buffer tag finder (open symbol)
-map <D-T> :CtrlPBufTag<CR>
-imap <D-T> <ESC>:CtrlPBufTag<CR>
+map <C-T> :CtrlPBufTag<CR>
+imap <C-T> <ESC>:CtrlPBufTag<CR>
 " Command-B opens the buffer finder
-map <D-b> :CtrlPBuffer<CR>
-imap <D-b> <ESC>:CtrlPBuffer<CR>
+map <C-b> :CtrlPBuffer<CR>
+imap <C-b> <ESC>:CtrlPBuffer<CR>
 
 
 
@@ -101,7 +101,12 @@ map <F5> :NERDTreeFind<CR>
 
 
 " Syntastic
-let g:syntastic_enable_signs=1
+"let g:syntastic_enable_signs=1
+
+" neomake
+autocmd! BufWritePost * Neomake
+let g:neomake_open_list=2
+
 map <Leader>e :Errors<CR>
 
 
@@ -110,8 +115,6 @@ let g:ruby_doc_command='open'
 
 
 " vim-airline
-" tabline was slowing down vim to a crawl when multiple buffers were open
-"let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
 
@@ -124,7 +127,13 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:sparkupArgs = '--no-last-newline --expand-divs'
 
 " vroom
-let g:vroom_use_dispatch = 1
+"let g:vroom_use_dispatch = 1
+"let g:vroom_use_spring = 1
+
+" vim-test
+"let test#ruby#rspec#executable = 'zeus rspec'
+nmap <silent> <leader>r :TestFile<CR>
+nmap <silent> <leader>R :TestNearest<CR>
 
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
@@ -257,14 +266,17 @@ augroup cursor
         \ if &l:cursorline | setlocal nocursorline nocursorcolumn | endif
 augroup END
 
-" Local overrides
-if filereadable(glob("~/.vimrc.local"))
-    source ~/.vimrc.local
-endif
-
-
 " skip paren matching -- it's too slow
 if version >= 700
   ":NoMatchParen and :DoMatchParen toggle this
   let loaded_matchparen = 1
+endif
+
+" Local overrides
+if !has('nvim') && filereadable(glob("~/.vimrc.local"))
+    source ~/.vimrc.local
+endif
+
+if has('nvim') && filereadable(glob("~/.vimrc.nvim.local"))
+  source ~/.vimrc.nvim.local
 endif
